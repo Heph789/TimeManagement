@@ -19,6 +19,8 @@ export default class App extends React.Component {
     let {categories, times} = this.state;
     categories.push("hello");
     times.push(0);
+    console.log(categories);
+    console.log(times);
     this.setState({
       categories: categories,
       times: times
@@ -29,15 +31,17 @@ export default class App extends React.Component {
     let {categories, times} = this.state;
     categories.splice(key, 1);
     times.splice(key, 1);
+    console.log(categories);
+    console.log(times);
     this.setState({
       categories: categories,
       times: times
     });
   }
 
-  _addTime(key) {
+  _addTime(key, time) {
     let times = this.state.times;
-    times[key] += 1;
+    times[key] = time;
     this.setState({
       times: times
     });
@@ -45,7 +49,7 @@ export default class App extends React.Component {
 
   render() {
     let tempArr = this.state.categories.map((a, i) => {
-      return <Category name={a} key={i} keyProp={i} method={this._removeCategory} time={this.state.times[i]} timeEvent={this._addTime}/>
+      return <Category name={a} key={a} keyProp={i} method={this._removeCategory} time={this.state.times[i]} timeEvent={this._addTime}/>
     })
 
     return (

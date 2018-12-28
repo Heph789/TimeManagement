@@ -12,6 +12,7 @@ export class Category extends React.Component {
     this._startTime = this._startTime.bind(this);
     this._clearTime = this._clearTime.bind(this);
     this._deleteCat = this._deleteCat.bind(this);
+    this._clearInterval = this._clearInterval.bind(this);
     //if(this.state.going) {
 
     //}
@@ -19,30 +20,37 @@ export class Category extends React.Component {
 
   _startTime() {
     if(this.going) {
-      clearInterval(this.timerID);
+      this._clearInterval(this.state.time);
     }
     else {
       this.timerID = setInterval(() => {
         this.setState(previousState => (
           { time: previousState.time+1 }
         ));
-        this.props.timeEvent(this.props.keyProp);
       }, 1000);
+      this.going = true;
     }
-    this.going = !this.going;
   }
 
   _clearTime() {
     this.setState(
       { time: 0 }
     );
+    this._clearInterval(0);
   }
 
   _deleteCat() {
     this.props.method(this.props.keyProp);
+    this._clearInterval(0);
   }
 
+  _clearInterval(time) {
+    clearInterval(this.timerID);
+    this.props.timeEvent(this.props.keyProp, time);
+    this.going = false;
+  }
   render() {
+    console.log(this.props.keyProp + ":" + this.props.time);
     let s = this.state.time;
     let m = Math.floor(s/60);
     s %= 60;
