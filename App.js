@@ -1,23 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, TextInput } from 'react-native';
 import {Category} from './Category.js';
+import {AddCategoryPane} from './examples/AddCategoryPane.js';
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      categories: ["Video Games", "Instagram", "TV", "Coding"],
-      times: [0, 0, 0, 0]
+      categories: [],
+      times: []
     };
     this._addCategory = this._addCategory.bind(this);
     this._removeCategory = this._removeCategory.bind(this);
     this._addTime = this._addTime.bind(this);
+    this.text = "";
   }
 
   _addCategory() {
+    name=this.text;
     let {categories, times} = this.state;
-    categories.push("hello");
+    categories.push(name);
     times.push(0);
     console.log(categories);
     console.log(times);
@@ -58,7 +61,8 @@ export default class App extends React.Component {
           {tempArr}
         </View>
         <View style={styles.bottomMenu}>
-          <Button onPress={this._addCategory} title="Button"/>
+          {/*<TextInput onChangeText={(text) => this.text=text} onSubmitEditing={this._addCategory} />*/}
+          <AddCategoryPane/>
         </View>
       </View>
     );

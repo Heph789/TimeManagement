@@ -50,7 +50,6 @@ export class Category extends React.Component {
     this.going = false;
   }
   render() {
-    console.log(this.props.keyProp + ":" + this.props.time);
     let s = this.state.time;
     let m = Math.floor(s/60);
     s %= 60;
