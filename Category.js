@@ -55,10 +55,15 @@ export class Category extends React.Component {
     s %= 60;
     let h = Math.floor(m/60);
     m %= 60;
+    let percent = "";
+    if(this.props.percentage>0) {
+      percent = "none";
+    }
     return (
       <View style={styles.cat}>
         <Text style={styles.text, styles.title}>{this.props.name}</Text>
         <Text style={styles.text}>Time: {h+"h " + m + "m " + s + "s"}</Text>
+        <Text style={styles.text}> {"Percent: " + this.props.percentage + "%"} </Text>
         <View style={styles.buttonContainer}>
           <Button title="Time" onPress={this._startTime}/>
           <Button title="Reset" onPress={this._clearTime}/>

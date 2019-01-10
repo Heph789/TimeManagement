@@ -9,27 +9,53 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       categories: [],
-      times: []
+      times: [],
+      percents: []
     };
     this._addCategory = this._addCategory.bind(this);
     this._removeCategory = this._removeCategory.bind(this);
     this._addTime = this._addTime.bind(this);
-    this.text = "";
+    this._calculate = this._calculate.bind(this);
+    //this.text = "";
   }
 
-  _addCategory() {
-    name=this.text;
-    let {categories, times} = this.state;
-    categories.push(name);
-    times.push(0);
-    console.log(categories);
-    console.log(times);
-    this.setState({
-      categories: categories,
-      times: times
-    });
+  _addCategory(name) {
+    let {categories, times, percents} = this.state;
+    let noRepeat = true;
+    for(let cat of categories) {
+      if (name === cat) {
+        noRepeat = false;
+      }
+    }
+    if (noRepeat) {
+      categories.push(name);
+      times.push(0);
+      percents.push(0);
+      this.setState({
+        categories: categories,
+        times: times
+      });
+    }
+    else {
+      Alert.alert("Category already exists");
+    }
     //console.log(JSON.stringify(arr));
   }
+
+  _calculate() {
+    let times = this.state.times;
+    let percents = this.state.percents;
+    let total = 0;
+    for (let time of times) {
+      total+=time;
+    }
+    console.log(total);
+    for (let i=0; i<times.length; i++) {
+      percents[i] = Math.round((times[i]/total)*100);
+    }
+    this.setState({percents: percents})
+  }
+
   _removeCategory(key) {
     let {categories, times} = this.state;
     categories.splice(key, 1);
@@ -52,7 +78,7 @@ export default class App extends React.Component {
 
   render() {
     let tempArr = this.state.categories.map((a, i) => {
-      return <Category name={a} key={a} keyProp={i} method={this._removeCategory} time={this.state.times[i]} timeEvent={this._addTime}/>
+      return <Category name={a} key={a} keyProp={i} method={this._removeCategory} time={this.state.times[i]} percentage={this.state.percents[i]} timeEvent={this._addTime}/>
     })
 
     return (
@@ -62,7 +88,8 @@ export default class App extends React.Component {
         </View>
         <View style={styles.bottomMenu}>
           {/*<TextInput onChangeText={(text) => this.text=text} onSubmitEditing={this._addCategory} />*/}
-          <AddCategoryPane/>
+          <View style={{marginBottom: 10}}><Button title="Calculate" onPress={this._calculate} /></View>
+          <AddCategoryPane addCategory={this._addCategory}/>
         </View>
       </View>
     );

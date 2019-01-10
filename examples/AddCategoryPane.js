@@ -8,6 +8,7 @@ export class AddCategoryPane extends Component {
       modalVisible: false,
     };
     this._addCategory = this._addCategory.bind(this);
+    this.setModalVisible = this.setModalVisible.bind(this);
     this.text = "";
   }
 
@@ -17,7 +18,8 @@ export class AddCategoryPane extends Component {
   }
 
   _addCategory() {
-    this.props._addCategory(this.text);
+    this.props.addCategory(this.text);
+    this.setModalVisible(!this.state.modalVisible);
   }
 
   render() {
@@ -30,7 +32,7 @@ export class AddCategoryPane extends Component {
           onRequestClose={() => {
             this.setModalVisible(!this.state.modalVisible);
           }}>
-          <View style={styles.container} style={{}}>
+          <View style={styles.container}>
             <View style={styles.container2}>
               <TextInput
                 onChangeText={(text) => this.text=text}
@@ -43,7 +45,7 @@ export class AddCategoryPane extends Component {
                 onPress={() => {
                   this.setModalVisible(!this.state.modalVisible);
                 }}>
-                <Text>Hide Modal</Text>
+                <Text>Cancel</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -53,7 +55,7 @@ export class AddCategoryPane extends Component {
           onPress={() => {
             this.setModalVisible(true);
           }}
-          title="Show Modal"/>
+          title="Add Category"/>
       </View>
     );
   }
@@ -68,8 +70,7 @@ const styles = StyleSheet.create({
   },
   container2: {
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 200
+    alignItems: "center"
   },
   input: {
     borderColor: 'gray',
