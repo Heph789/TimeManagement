@@ -12,16 +12,19 @@ export class AddCategoryPane extends Component {
     this.text = "";
   }
 
-
+  //toggles the pop up menu
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
 
+  //calls addCategory from App.js and hides the addCategory popup
   _addCategory() {
     this.props.addCategory(this.text);
     this.setModalVisible(!this.state.modalVisible);
   }
 
+  //renders a popup menu with the ability to add text input
+  //Also the ability to close the popup menu
   render() {
     return (
       <View>

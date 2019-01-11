@@ -7,11 +7,14 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       categories: [],
       times: [],
       percents: []
     };
+
+    //this binds all of the functions so that they can use this keyword
     this._addCategory = this._addCategory.bind(this);
     this._removeCategory = this._removeCategory.bind(this);
     this._addTime = this._addTime.bind(this);
@@ -19,6 +22,8 @@ export default class App extends React.Component {
     //this.text = "";
   }
 
+  //@desc adds a category as well as a placeholder (0) for the percent and time
+  //@param name: the name of the category to add
   _addCategory(name) {
     let {categories, times, percents} = this.state;
     let noRepeat = true;
@@ -27,6 +32,7 @@ export default class App extends React.Component {
         noRepeat = false;
       }
     }
+    //if the name isn't in use, add the category
     if (noRepeat) {
       categories.push(name);
       times.push(0);
@@ -36,12 +42,14 @@ export default class App extends React.Component {
         times: times
       });
     }
+    //if the name is in use, give an alert
     else {
       Alert.alert("Category already exists");
     }
     //console.log(JSON.stringify(arr));
   }
 
+  //calculates the percentages for each category
   _calculate() {
     let times = this.state.times;
     let percents = this.state.percents;
@@ -56,6 +64,7 @@ export default class App extends React.Component {
     this.setState({percents: percents})
   }
 
+  //removes a category
   _removeCategory(key) {
     let {categories, times} = this.state;
     categories.splice(key, 1);
@@ -68,6 +77,7 @@ export default class App extends React.Component {
     });
   }
 
+  //function to be called everytime the time increments
   _addTime(key, time) {
     let times = this.state.times;
     times[key] = time;
@@ -77,6 +87,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    //maps the categories array into the tags
     let tempArr = this.state.categories.map((a, i) => {
       return <Category name={a} key={a} keyProp={i} method={this._removeCategory} time={this.state.times[i]} percentage={this.state.percents[i]} timeEvent={this._addTime}/>
     })

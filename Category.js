@@ -18,10 +18,13 @@ export class Category extends React.Component {
     //}
   }
 
+  //starts incrementing the time
   _startTime() {
+    //if this method is called and time is going, clear the timer therefore pausing the time
     if(this.going) {
       this._clearInterval(this.state.time);
     }
+    //else, start the timer up again
     else {
       this.timerID = setInterval(() => {
         this.setState(previousState => (
@@ -32,6 +35,7 @@ export class Category extends React.Component {
     }
   }
 
+  //clears the timer and resets it to zero
   _clearTime() {
     this.setState(
       { time: 0 }
@@ -39,26 +43,31 @@ export class Category extends React.Component {
     this._clearInterval(0);
   }
 
+  //calls the _deleteCategory method from App.js
   _deleteCat() {
     this.props.method(this.props.keyProp);
     this._clearInterval(0);
   }
 
+  //method to clear the timer. Sends the current time to App.js
   _clearInterval(time) {
     clearInterval(this.timerID);
     this.props.timeEvent(this.props.keyProp, time);
     this.going = false;
   }
   render() {
+    //calculates the hours, minutes, and seconds from seconds
     let s = this.state.time;
     let m = Math.floor(s/60);
     s %= 60;
     let h = Math.floor(m/60);
     m %= 60;
-    let percent = "";
+
+    /*let percent = "";
     if(this.props.percentage>0) {
       percent = "none";
-    }
+    }*/
+
     return (
       <View style={styles.cat}>
         <Text style={styles.text, styles.title}>{this.props.name}</Text>
